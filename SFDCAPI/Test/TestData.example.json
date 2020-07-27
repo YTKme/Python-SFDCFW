@@ -1,0 +1,35 @@
+{
+    "domain": "login",
+    "enterprise_wsdl": "enterprise.wsdl",
+    "metadata_wsdl": "metadata.wsdl",
+    "user": {
+        "soap_user_success": {
+            "username": "<username>",
+            "password": "<password>",
+            "security_token": "<security_token>"
+        },
+        "soap_user_failure": {
+            "username": "<username>",
+            "password": "<password>",
+            "security_token": "<security_token>"
+        },
+        "rest_user_success": {
+            "username": "<username>",
+            "password": "<password>",
+            "security_token": "<security_token>",
+            "consumer_key": "<consumer_key>",
+            "consumer_secret": "<consumer_secret>"
+        },
+        "rest_user_failure": {
+            "username": "<username>",
+            "password": "<password>",
+            "security_token": "<security_token>",
+            "consumer_key": "<consumer_key>",
+            "consumer_secret": "<consumer_secret>"
+        }
+    },
+    "account": {
+        "create_account_success": {
+        }
+    }
+}
