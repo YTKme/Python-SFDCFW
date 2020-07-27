@@ -43,7 +43,7 @@ class TestRestAccess(unittest.TestCase):
         cls.domain = cls.data["domain"]
 
 
-    def test_login_rest_success(self):
+    def test_rest_login_success(self):
         """Test a success of REST (REpresentational State Transfer) login method.
 
         Get the success username and password (rest_user_success) data
@@ -66,7 +66,7 @@ class TestRestAccess(unittest.TestCase):
         self.assertEqual(type(access), tuple)
 
 
-    def test_login_rest_failure(self):
+    def test_rest_login_failure(self):
         """Test a failure of REST (REpresentational State Transfer) login method.
 
         Get the failure username and password (rest_user_failure) data
@@ -116,7 +116,7 @@ class TestSoapAccess(unittest.TestCase):
         # cls.metadata_wsdl = os.path.join(current_directory, cls.data["metadata_wsdl"])
 
 
-    def test_login_soap_success(self):
+    def test_soap_login_success(self):
         """Test a success of SOAP (Simple Object Access Protocol) login method.
 
         Get the success username and password (soap_user_success) data
@@ -139,7 +139,7 @@ class TestSoapAccess(unittest.TestCase):
         self.assertEqual(type(access), tuple)
 
 
-    def test_login_soap_failure(self):
+    def test_soap_login_failure(self):
         """Test a failure of SOAP (Simple Object Access Protocol) login method.
 
         Get the failure username and password (soap_user_failure) data
