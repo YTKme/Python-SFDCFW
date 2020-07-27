@@ -1,0 +1,10 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./SFDCAPI/Test",
+        "-p",
+        "*Test*.py"
+    ],
+    "python.testing.unittestEnabled": true
+}
