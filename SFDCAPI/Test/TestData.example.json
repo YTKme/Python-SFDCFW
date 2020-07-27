@@ -3,16 +3,6 @@
     "enterprise_wsdl": "enterprise.wsdl",
     "metadata_wsdl": "metadata.wsdl",
     "user": {
-        "soap_user_success": {
-            "username": "<username>",
-            "password": "<password>",
-            "security_token": "<security_token>"
-        },
-        "soap_user_failure": {
-            "username": "<username>",
-            "password": "<password>",
-            "security_token": "<security_token>"
-        },
         "rest_user_success": {
             "username": "<username>",
             "password": "<password>",
@@ -22,10 +12,20 @@
         },
         "rest_user_failure": {
             "username": "<username>",
+            "password": "RandomPassword",
+            "security_token": "RandomSecurityToken",
+            "consumer_key": "RandomConsumerKey",
+            "consumer_secret": "RandomConsumerSecret"
+        },
+        "soap_user_success": {
+            "username": "<username>",
             "password": "<password>",
-            "security_token": "<security_token>",
-            "consumer_key": "<consumer_key>",
-            "consumer_secret": "<consumer_secret>"
+            "security_token": "<security_token>"
+        },
+        "soap_user_failure": {
+            "username": "<username>",
+            "password": "RandomPassword",
+            "security_token": "RandomSecurityToken"
         }
     },
     "account": {
