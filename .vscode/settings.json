@@ -5,6 +5,5 @@
         "./SFDCAPI/Test",
         "-p",
         "*Test*.py"
-    ],
-    "python.testing.unittestEnabled": true
+    ]
 }
