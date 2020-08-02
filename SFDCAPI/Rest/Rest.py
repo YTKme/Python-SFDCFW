@@ -17,28 +17,11 @@ class Rest(object):
         >>> from SFDCAPI.Rest.Rest import Rest
         >>> rest = Rest()
         >>> rest.send("GET", "https://yourInstance.my.salesforce.com/services/data/")
-
-        or
-
-        >>> from SFDCAPI.Rest.Rest import Rest
-        >>> rest = Rest("GET", "https://yourInstance.my.salesforce.com/services/data/")
-        >>> rest.send()
     """
 
-    def __init__(self, method, url, header=None, payload=None):
-        """Constructor.
-
-        Args:
-            method (str): The HTTP method for the request
-            relative_url (str): The relative URL for the HTTP request
-            header (dict): The header of the HTTP request
-            payload (dict): The body of the HTTP request
-        """
-
-        self.method = method
-        self.url = url
-        self.header = header
-        self.payload = payload
+    def __init__(self):
+        """Constructor."""
+        pass
 
 
     def send(self, method, url, header=None, payload=None):
@@ -58,10 +41,10 @@ class Rest(object):
         session = Session()
 
         # Create the request
-        request = Request(method=self.method if self.method else method,
-                          url=self.url if self.url else url,
-                          headers=self.header if self.header else header,
-                          data=self.payload if self.payload else payload)
+        request = Request(method=method,
+                          url=url,
+                          headers=header,
+                          data=payload)
         # Prepare the request
         preparation = request.prepare()
 
