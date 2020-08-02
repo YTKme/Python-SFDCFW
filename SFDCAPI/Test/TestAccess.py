@@ -8,6 +8,7 @@ import os
 import unittest
 
 from SFDCAPI.Authentication.Access import Access
+from SFDCAPI.Constant.Constant import TEST_DATA
 
 
 def setUpModule():
@@ -33,14 +34,14 @@ class TestRestAccess(unittest.TestCase):
         # Get the current directory of the file
         current_directory = os.path.dirname(os.path.abspath(__file__))
         # Get the path of the Test Data file
-        cls.test_data_file = os.path.join(current_directory, "TestData.json")
+        cls.test_data_file = os.path.join(current_directory, TEST_DATA)
 
         # Open the file for reading
-        with open(cls.test_data_file, "r") as f:
+        with open(cls.test_data_file, 'r') as f:
             cls.data = json.load(f)
 
         # Get the hostname from the Test Data
-        cls.domain = cls.data["domain"]
+        cls.domain = cls.data['domain']
 
 
     def test_rest_login_success(self):
@@ -52,14 +53,14 @@ class TestRestAccess(unittest.TestCase):
         """
 
         # Get the REST user data for success login
-        rest_user_success = self.data["user"]["rest_user_success"]
+        rest_user_success = self.data['user']['rest_user_success']
 
         # Create an instance of Access object and login
-        access = Access(username=rest_user_success["username"],
-                        password=rest_user_success["password"],
-                        security_token=rest_user_success["security_token"],
-                        client_id=rest_user_success["consumer_key"],
-                        client_secret=rest_user_success["consumer_secret"],
+        access = Access(username=rest_user_success['username'],
+                        password=rest_user_success['password'],
+                        security_token=rest_user_success['security_token'],
+                        client_id=rest_user_success['consumer_key'],
+                        client_secret=rest_user_success['consumer_secret'],
                         domain=self.domain).login()
 
         # Test to ensure `access` is a tuple
@@ -75,14 +76,14 @@ class TestRestAccess(unittest.TestCase):
         """
 
         # Get the REST user data for failure login
-        rest_user_failure = self.data["user"]["rest_user_failure"]
+        rest_user_failure = self.data['user']['rest_user_failure']
 
         # Create an instance of Access object and login
-        access = Access(username=rest_user_failure["username"],
-                        password=rest_user_failure["password"],
-                        security_token=rest_user_failure["security_token"],
-                        client_id=rest_user_failure["consumer_key"],
-                        client_secret=rest_user_failure["consumer_secret"],
+        access = Access(username=rest_user_failure['username'],
+                        password=rest_user_failure['password'],
+                        security_token=rest_user_failure['security_token'],
+                        client_id=rest_user_failure['consumer_key'],
+                        client_secret=rest_user_failure['consumer_secret'],
                         domain=self.domain).login()
 
         # Test to ensure `access` is `None`
@@ -102,17 +103,17 @@ class TestSoapAccess(unittest.TestCase):
         # Get the current directory of the file
         current_directory = os.path.dirname(os.path.abspath(__file__))
         # Get the path of the Test Data file
-        cls.test_data_file = os.path.join(current_directory, "TestData.json")
+        cls.test_data_file = os.path.join(current_directory, TEST_DATA)
 
         # Open the file for reading
-        with open(cls.test_data_file, "r") as f:
+        with open(cls.test_data_file, 'r') as f:
             cls.data = json.load(f)
 
         # Get the hostname from the Test Data
-        cls.domain = cls.data["domain"]
+        cls.domain = cls.data['domain']
 
         # Get the WSDL (Web Service Definition Language) file path
-        cls.enterprise_wsdl = os.path.join(current_directory, cls.data["enterprise_wsdl"])
+        cls.enterprise_wsdl = os.path.join(current_directory, cls.data['enterprise_wsdl'])
         # cls.metadata_wsdl = os.path.join(current_directory, cls.data["metadata_wsdl"])
 
 
@@ -125,12 +126,12 @@ class TestSoapAccess(unittest.TestCase):
         """
 
         # Get the SOAP user data for success login
-        soap_user_success = self.data["user"]["soap_user_success"]
+        soap_user_success = self.data['user']['soap_user_success']
 
         # Create an instance of Access object and login
-        access = Access(username=soap_user_success["username"],
-                        password=soap_user_success["password"],
-                        security_token=soap_user_success["security_token"],
+        access = Access(username=soap_user_success['username'],
+                        password=soap_user_success['password'],
+                        security_token=soap_user_success['security_token'],
                         domain=self.domain,
                         wsdl=self.enterprise_wsdl,
                         metadata=True).login()
@@ -148,12 +149,12 @@ class TestSoapAccess(unittest.TestCase):
         """
 
         # Get the SOAP user data for failure login
-        soap_user_failure = self.data["user"]["soap_user_failure"]
+        soap_user_failure = self.data['user']['soap_user_failure']
 
         # Create an instance of Access object and login
-        access = Access(username=soap_user_failure["username"],
-                        password=soap_user_failure["password"],
-                        security_token=soap_user_failure["security_token"],
+        access = Access(username=soap_user_failure['username'],
+                        password=soap_user_failure['password'],
+                        security_token=soap_user_failure['security_token'],
                         domain=self.domain,
                         wsdl=self.enterprise_wsdl,
                         metadata=True).login()

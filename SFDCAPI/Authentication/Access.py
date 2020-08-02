@@ -115,16 +115,16 @@ class Access(object):
 
         # Create header
         header = {
-            "Content-Type": "application/x-www-form-urlencoded"
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
 
         # Create payload
         payload = {
-            "grant_type": "password",
-            "username": username,
-            "password": password + security_token,
-            "client_id": client_id,
-            "client_secret": client_secret
+            'grant_type': 'password',
+            'username': username,
+            'password': password + security_token,
+            'client_id': client_id,
+            'client_secret': client_secret
         }
 
         # Make the request and get the response
@@ -132,8 +132,8 @@ class Access(object):
 
         if r.status_code == 200:
             # Parse the access token and instance URL
-            access_token = r.json()["access_token"]
-            instance_url = r.json()["instance_url"]
+            access_token = r.json()['access_token']
+            instance_url = r.json()['instance_url']
             return (access_token, instance_url)
 
         # Return None for now if error
@@ -175,17 +175,17 @@ class Access(object):
         # Check to see if the client service succeeded
         if r is not None:
             # Get the sessionId
-            session_id = r["sessionId"]
+            session_id = r['sessionId']
 
             if metadata:
                 # Get the `metadataServerUrl` if requested
-                metadata_server_url = r["metadataServerUrl"]
+                metadata_server_url = r['metadataServerUrl']
 
                 # Return a tuple of the session ID and metadata server URL
                 return (session_id, metadata_server_url)
             else:
                 # Get the `serverUrl`
-                server_url = r["serverUrl"]
+                server_url = r['serverUrl']
 
                 # Return a tuple of the session ID and server URL
                 return (session_id, server_url)
