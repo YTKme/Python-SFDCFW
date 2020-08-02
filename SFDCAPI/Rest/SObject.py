@@ -4,6 +4,7 @@ SFDCAPI.Rest.SObject
 """
 
 import json
+from urllib.parse import urlparse
 
 from SFDCAPI.Rest.Rest import Rest
 
@@ -16,6 +17,28 @@ from SFDCAPI.Constant.Constant import HTTP_DELETE
 class SObject(Rest):
     """SObject class.
     """
+
+    def __init__(self, access):
+        """Constructor
+
+        Args:
+            access (tuple): The Salesforce session ID / access token and
+                server URL / instance URL tuple
+        """
+
+        # Unpack the tuple for session ID / access token and server URL / instance URL
+        self.id_token, self.url = access
+        
+        # Parse the URL
+        u = urlparse(self.url)
+        self.url = "{scheme}://{netloc}".format(scheme=u.scheme, netloc=u.netloc)
+
+        # Create REST header
+        self._header = {
+            "Authorization": "Bearer " + self.id_token,
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json"
+        }
 
     def __getattr__(self, label):
         """Get Attribute Passed In.
@@ -44,15 +67,18 @@ class SObject(Rest):
         """
         
         # Create the request URL
-        request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label
+        request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label
 
         # Send the request
-        r = self.send(HTTP_POST, request_url, data)
+        r = self.send(HTTP_POST,
+                      request_url,
+                      header=self.header,
+                      payload=data)
 
         # Check the status code
         if r.status_code == 201:
             # Parse the unique identifier (ID) of the SObject
-            sobject_id = json.loads(r.text)["id"]
+            sobject_id = json.loads(r.text)['id']
             # Return the unique identifier (ID) of the SObject
             return sobject_id
 
@@ -72,13 +98,13 @@ class SObject(Rest):
 
         if id is not None:
             # Create the request URL with unique identifier (ID) of the SObject
-            request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label + "/" + id
+            request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label + '/' + id
         else:
             # Create the base request URL
-            request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label
+            request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label
 
         # Send the request
-        r = self.send(HTTP_GET, request_url, None)
+        r = self.send(HTTP_GET, request_url)
 
         # Check the status code
         if r.status_code == 200:
@@ -87,25 +113,6 @@ class SObject(Rest):
 
         # There was an error
         return None
-
-
-    def find_by_id(self, id):
-        """Find By ID.
-
-        Args:
-            id (str): The ID of the SObject.
-
-        Returns:
-            A string formatted JSON for the HTTP response object.
-        """
-        
-        # Create the request URL
-        request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label + "/" + id
-
-        # Send the request
-        r = self.send(HTTP_GET, request_url, None)
-
-        return r.text
 
 
     def update(self, id, data):
@@ -120,10 +127,13 @@ class SObject(Rest):
         """
 
         # Create the request URL
-        request_url = "/sobjects/" + self.label + "/" + id
+        request_url = '/sobjects/' + self.label + '/' + id
 
         # Send the request
-        r = self.send(HTTP_PATCH, request_url, json.dumps(data))
+        r = self.send(HTTP_PATCH,
+                      request_url,
+                      header=self.header,
+                      payload=json.dumps(data))
 
         # Check the status code
         if r.status_code == 204:
@@ -145,10 +155,10 @@ class SObject(Rest):
         """
 
         # Create the request URL
-        request_url = "/sobjects/" + self.label + "/" + id
+        request_url = '/sobjects/' + self.label + '/' + id
 
         # Send the request
-        r = self.send(HTTP_DELETE, request_url, None)
+        r = self.send(HTTP_DELETE, request_url)
 
         # Check the status code
         if r.status_code == 204:
