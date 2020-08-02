@@ -12,8 +12,12 @@ from SFDCAPI.Constant.Constant import HTTP_GET
 from SFDCAPI.Constant.Constant import TEST_DATA
 
 
-class TestRest(unittest.TestCase):
-    """Test the REST (REpresentational State Transfer) module."""
+class TestRestGet(unittest.TestCase):
+    """Test Rest Get
+    
+    Test the REST (REpresentational State Transfer) module with the HTTP
+    (HyperText Transfer Protocol) GET method.
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -35,16 +39,19 @@ class TestRest(unittest.TestCase):
         cls.url = cls.data['url']
 
 
-    def test_send_get_success(self):
+    def test_send_success(self):
         """Test a success of the send method.
+
+        Send a HTTP GET request to a valid URL and test to ensure the
+        response status code is 200 OK.
         """
 
         # Create instance of Rest object
         rest = Rest()
-        # Send a GET request to a valid URL
+        # Send a HTTP GET request to a valid URL
         response = rest.send(HTTP_GET, self.url)
 
-        # Test to ensure getting HTTP (HyperText Transfer Protocol) status code 200
+        # Test to ensure getting HTTP status code 200
         self.assertEqual(response.status_code, 200)
 
 
@@ -55,7 +62,7 @@ def suite():
     suite = unittest.TestSuite()
 
     # Add the Unit Test
-    suite.addTest(TestRest)
+    suite.addTest(TestRestGet)
 
     # Return the Test Suite
     return suite
