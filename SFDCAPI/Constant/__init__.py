@@ -1,1 +1,1 @@
-name = "Constant"
+name = 'Constant'
