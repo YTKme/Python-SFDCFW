@@ -170,8 +170,8 @@ def suite():
     suite = unittest.TestSuite()
 
     # Add the Unit Test
-    suite.addTest(TestRestAccess())
-    suite.addTest(TestSoapAccess())
+    suite.addTest(TestRestAccess)
+    suite.addTest(TestSoapAccess)
 
     # Return the Test Suite
     return suite
