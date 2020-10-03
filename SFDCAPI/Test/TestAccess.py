@@ -52,15 +52,15 @@ class TestRestAccess(unittest.TestCase):
         method returning a tuple of the access token and instance URL.
         """
 
-        # Get the REST user data for success login
-        rest_user_success = self.data['user']['rest_access_user_success']
+        # Get the REST Access user data for success login
+        rest_access_user_success = self.data['user']['rest_access_user_success']
 
         # Create an instance of Access object and login
-        access = Access(username=rest_user_success['username'],
-                        password=rest_user_success['password'],
-                        security_token=rest_user_success['security_token'],
-                        client_id=rest_user_success['consumer_key'],
-                        client_secret=rest_user_success['consumer_secret'],
+        access = Access(username=rest_access_user_success['username'],
+                        password=rest_access_user_success['password'],
+                        security_token=rest_access_user_success['security_token'],
+                        client_id=rest_access_user_success['consumer_key'],
+                        client_secret=rest_access_user_success['consumer_secret'],
                         domain=self.domain).login()
 
         # Test to ensure `access` is a tuple
@@ -75,15 +75,15 @@ class TestRestAccess(unittest.TestCase):
         method returning a a `None` value.
         """
 
-        # Get the REST user data for failure login
-        rest_user_failure = self.data['user']['rest_access_user_failure']
+        # Get the REST Access user data for failure login
+        rest_access_user_failure = self.data['user']['rest_access_user_failure']
 
         # Create an instance of Access object and login
-        access = Access(username=rest_user_failure['username'],
-                        password=rest_user_failure['password'],
-                        security_token=rest_user_failure['security_token'],
-                        client_id=rest_user_failure['consumer_key'],
-                        client_secret=rest_user_failure['consumer_secret'],
+        access = Access(username=rest_access_user_failure['username'],
+                        password=rest_access_user_failure['password'],
+                        security_token=rest_access_user_failure['security_token'],
+                        client_id=rest_access_user_failure['consumer_key'],
+                        client_secret=rest_access_user_failure['consumer_secret'],
                         domain=self.domain).login()
 
         # Test to ensure `access` is `None`
@@ -126,13 +126,13 @@ class TestSoapAccess(unittest.TestCase):
         URL.
         """
 
-        # Get the SOAP user data for success login
-        soap_user_success = self.data['user']['soap_access_user_success']
+        # Get the SOAP Access user data for success login
+        soap_access_user_success = self.data['user']['soap_access_user_success']
 
         # Create an instance of Access object and login
-        access = Access(username=soap_user_success['username'],
-                        password=soap_user_success['password'],
-                        security_token=soap_user_success['security_token'],
+        access = Access(username=soap_access_user_success['username'],
+                        password=soap_access_user_success['password'],
+                        security_token=soap_access_user_success['security_token'],
                         domain=self.domain,
                         wsdl=self.enterprise_wsdl,
                         metadata=True).login()
@@ -149,13 +149,13 @@ class TestSoapAccess(unittest.TestCase):
         method returning a `None` value.
         """
 
-        # Get the SOAP user data for failure login
-        soap_user_failure = self.data['user']['soap_access_user_failure']
+        # Get the SOAP Access user data for failure login
+        soap_access_user_failure = self.data['user']['soap_access_user_failure']
 
         # Create an instance of Access object and login
-        access = Access(username=soap_user_failure['username'],
-                        password=soap_user_failure['password'],
-                        security_token=soap_user_failure['security_token'],
+        access = Access(username=soap_access_user_failure['username'],
+                        password=soap_access_user_failure['password'],
+                        security_token=soap_access_user_failure['security_token'],
                         domain=self.domain,
                         wsdl=self.enterprise_wsdl,
                         metadata=True).login()
