@@ -47,13 +47,13 @@ class TestRestAccess(unittest.TestCase):
     def test_rest_login_success(self):
         """Test a success of REST (REpresentational State Transfer) login method.
 
-        Get the success username and password (rest_user_success) data
-        from the Test Data file and login. Should result in login method
-        returning a tuple of the access token and instance URL.
+        Get the success username and password (rest_access_user_success)
+        data from the Test Data file and login. Should result in login
+        method returning a tuple of the access token and instance URL.
         """
 
         # Get the REST user data for success login
-        rest_user_success = self.data['user']['rest_user_success']
+        rest_user_success = self.data['user']['rest_access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_user_success['username'],
@@ -70,13 +70,13 @@ class TestRestAccess(unittest.TestCase):
     def test_rest_login_failure(self):
         """Test a failure of REST (REpresentational State Transfer) login method.
 
-        Get the failure username and password (rest_user_failure) data
-        from the Test Data file and login. Should result in login method
-        returning a a `None` value.
+        Get the failure username and password (rest_access_user_failure)
+        data from the Test Data file and login. Should result in login
+        method returning a a `None` value.
         """
 
         # Get the REST user data for failure login
-        rest_user_failure = self.data['user']['rest_user_failure']
+        rest_user_failure = self.data['user']['rest_access_user_failure']
 
         # Create an instance of Access object and login
         access = Access(username=rest_user_failure['username'],
@@ -120,13 +120,14 @@ class TestSoapAccess(unittest.TestCase):
     def test_soap_login_success(self):
         """Test a success of SOAP (Simple Object Access Protocol) login method.
 
-        Get the success username and password (soap_user_success) data
-        from the Test Data file and login. Should result in login method
-        returning a tuple of the session ID and (metadata) server URL.
+        Get the success username and password (soap_access_user_success)
+        data from the Test Data file and login. Should result in login
+        method returning a tuple of the session ID and (metadata) server
+        URL.
         """
 
         # Get the SOAP user data for success login
-        soap_user_success = self.data['user']['soap_user_success']
+        soap_user_success = self.data['user']['soap_access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=soap_user_success['username'],
@@ -143,13 +144,13 @@ class TestSoapAccess(unittest.TestCase):
     def test_soap_login_failure(self):
         """Test a failure of SOAP (Simple Object Access Protocol) login method.
 
-        Get the failure username and password (soap_user_failure) data
-        from the Test Data file and login. Should result in login method
-        returning a `None` value.
+        Get the failure username and password (soap_access_user_failure)
+        data from the Test Data file and login. Should result in login
+        method returning a `None` value.
         """
 
         # Get the SOAP user data for failure login
-        soap_user_failure = self.data['user']['soap_user_failure']
+        soap_user_failure = self.data['user']['soap_access_user_failure']
 
         # Create an instance of Access object and login
         access = Access(username=soap_user_failure['username'],

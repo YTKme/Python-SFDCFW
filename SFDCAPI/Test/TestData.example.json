@@ -3,33 +3,33 @@
     "enterprise_wsdl": "enterprise.wsdl",
     "metadata_wsdl": "metadata.wsdl",
     "user": {
-        "rest_user_success": {
+        "rest_access_user_success": {
             "username": "<username>",
             "password": "<password>",
             "security_token": "<security_token>",
             "consumer_key": "<consumer_key>",
             "consumer_secret": "<consumer_secret>"
         },
-        "rest_user_failure": {
+        "rest_access_user_failure": {
             "username": "<username>",
             "password": "RandomPassword",
             "security_token": "RandomSecurityToken",
             "consumer_key": "RandomConsumerKey",
             "consumer_secret": "RandomConsumerSecret"
         },
-        "soap_user_success": {
+        "soap_access_user_success": {
             "username": "<username>",
             "password": "<password>",
             "security_token": "<security_token>"
         },
-        "soap_user_failure": {
+        "soap_access_user_failure": {
             "username": "<username>",
             "password": "RandomPassword",
             "security_token": "RandomSecurityToken"
         }
     },
     "account": {
-        "create_account_success": {
+        "rest_create_account_success": {
         }
     }
 }
