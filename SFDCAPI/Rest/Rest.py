@@ -16,7 +16,7 @@ class Rest(object):
 
         >>> from SFDCAPI.Rest.Rest import Rest
         >>> rest = Rest()
-        >>> rest.send("GET", "https://yourInstance.my.salesforce.com/services/data/")
+        >>> rest.send('GET', 'https://yourInstance.my.salesforce.com/services/data/')
     """
 
     def __init__(self):
