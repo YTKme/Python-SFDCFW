@@ -11,6 +11,104 @@ import unittest
 
 from SFDCAPI.Authentication.Access import Access
 from SFDCAPI.Rest.SObject import SObject
+from SFDCAPI.Constant.Constant import TEST_DATA
+
+
+def setUpModule():
+    """Set Up Module"""
+    pass
+
+
+def tearDownModule():
+    """Tear Down Module"""
+    pass
+
+
+class TestRestSObjectCreateAccount(unittest.TestCase):
+    """
+    Test the SObject module using REST (REpresentational State Transfer)
+    with Create Account.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """Prepare test setup class.
+
+        Get the data from JSON (JavaScript Object Notation) file and
+        login.
+        """
+
+        # Get the current directory of the file
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        # Get the path of the Test Data file
+        cls.test_data_file = os.path.join(current_directory, TEST_DATA)
+
+        # Open the file for reading
+        with open(cls.test_data_file, 'r') as f:
+            cls.data = json.load(f)
+
+        # Get the domain
+        domain = cls.data['domain']
+
+        # Get the REST Access user data for success login
+        rest_access_user_success = cls.data['user']['rest_access_user_success']
+
+        # Create an instance of Access object and login
+        access = Access(username=rest_access_user_success['username'],
+                        password=rest_access_user_success['password'],
+                        security_token=rest_access_user_success['security_token'],
+                        client_id=rest_access_user_success['consumer_key'],
+                        client_secret=rest_access_user_success['consumer_secret'],
+                        domain=domain).login()
+
+        # Create an instance of SObject
+        cls.sobject = SObject(access)
+
+
+    def test_rest_sobject_create_account_success(self):
+        """Test a success of REST (REpresentational State Transfer) SObject create Account.
+
+        Generated Account Name to make a request for create. Should
+        result in response with status code 204 No Content.
+        """
+
+        # Create the payload
+        payload = {
+            # Generate a random Account Name
+            "Name": "Account-{}".format(random.randrange(10000, 99999))
+        }
+
+        # Make a request to create the Account
+        # Get the return unique identifier (ID)
+        # The payload need to be serialized to JSON formatted str (json.dumps)
+        account_id = self.sobject.Account.create(json.dumps(payload))
+
+        # Create the dictionary
+        self.data["account"]["rest_create_account_success"] = {}
+        # Create or update the Account ID in the Test Data
+        self.data["account"]["rest_create_account_success"]["id"] = account_id
+
+        # Write the new Test Data to file
+        with open(self.test_data_file, "w") as f:
+            json.dump(self.data, f)
+
+        # Test to ensure Account ID is a string
+        self.assertEqual(type(account_id), str)
+
+
+    @classmethod
+    def tearDownClass(cls):
+        """Prepare test teardown class.
+
+        Clean up Test Data
+        """
+
+        # Get the REST create Account success data
+        rest_create_account_success = cls.data["account"]["rest_create_account_success"]
+
+        # Make a request to delete the Account
+        account = cls.sobject.Account.delete(rest_create_account_success["id"])
+
 
 class TestRestSObjectAccount(unittest.TestCase):
     """
@@ -29,40 +127,40 @@ class TestRestSObjectAccount(unittest.TestCase):
         # Get the current directory of the file
         current_directory = os.path.dirname(os.path.abspath(__file__))
         # Get the path of the Test Data file
-        cls._test_data_file = os.path.join(current_directory, "TestData.json")
+        cls.test_data_file = os.path.join(current_directory, TEST_DATA)
 
         # Open the file for reading
-        with open(cls._test_data_file, "r") as f:
-            cls._data = json.load(f)
+        with open(cls.test_data_file, 'r') as f:
+            cls.data = json.load(f)
 
         # Get the domain
-        domain = cls._data["domain"]
+        domain = cls.data['domain']
 
         # Get the user data for success login
-        user_rest_success = cls._data["user"]["user_rest_success"]
+        user_rest_success = cls.data['user']['user_rest_success']
 
         # Create an instance of Access object and login
-        cls._access = Access(username=user_rest_success["username"],
-                             password=user_rest_success["password"],
-                             security_token=user_rest_success["security_token"],
-                             client_id=user_rest_success["consumer_key"],
-                             client_secret=user_rest_success["consumer_secret"],
-                             domain=domain).login()
+        cls.access = Access(username=user_rest_success["username"],
+                            password=user_rest_success["password"],
+                            security_token=user_rest_success["security_token"],
+                            client_id=user_rest_success["consumer_key"],
+                            client_secret=user_rest_success["consumer_secret"],
+                            domain=domain).login()
 
         # Create an instance of SObject
-        cls._sobject = SObject(cls._access)
+        cls.sobject = SObject(cls.access)
 
         # Set up Account for Delete
         account_id = cls._create_account()
 
         # Create the dictionary
-        cls._data["account"]["delete_account_success"] = {}
+        cls.data["account"]["delete_account_success"] = {}
         # Create or update the Account ID in the Test Data
-        cls._data["account"]["delete_account_success"]["id"] = account_id
+        cls.data["account"]["delete_account_success"]["id"] = account_id
 
         # Write the new Test Data to file
-        with open(cls._test_data_file, "w") as f:
-            json.dump(cls._data, f)
+        with open(cls.test_data_file, "w") as f:
+            json.dump(cls.data, f)
 
 
     @classmethod
@@ -84,7 +182,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = cls._sobject.Account.create(json.dumps(payload))
+        account_id = cls.sobject.Account.create(json.dumps(payload))
 
         # Return the Account ID
         return account_id
@@ -107,7 +205,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = self._sobject.Account.create(json.dumps(payload))
+        account_id = self.sobject.Account.create(json.dumps(payload))
 
         # Test to ensure Account ID is None
         self.assertEqual(account_id, None)
@@ -129,16 +227,16 @@ class TestRestSObjectAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = self._sobject.Account.create(json.dumps(payload))
+        account_id = self.sobject.Account.create(json.dumps(payload))
 
         # Create the dictionary
-        self._data["account"]["read_account_success"] = {}
+        self.data["account"]["read_account_success"] = {}
         # Create or update the Account ID in the Test Data
-        self._data["account"]["read_account_success"]["id"] = account_id
+        self.data["account"]["read_account_success"]["id"] = account_id
 
         # Write the new Test Data to file
-        with open(self._test_data_file, "w") as f:
-            json.dump(self._data, f)
+        with open(self.test_data_file, "w") as f:
+            json.dump(self.data, f)
 
         # Test to ensure Account ID is a string
         self.assertEqual(type(account_id), str)
@@ -153,7 +251,7 @@ class TestRestSObjectAccount(unittest.TestCase):
 
         # Make a request to read the Account
         # Get the return Account data
-        account_data = self._sobject.Account.read()
+        account_data = self.sobject.Account.read()
 
         # Test to ensure Account data is a string
         self.assertEqual(type(account_data), str)
@@ -173,7 +271,7 @@ class TestRestSObjectAccount(unittest.TestCase):
 
         # Make a request to read the Account
         # Get the return Account data
-        account_data = self._sobject.Account.read(account_id)
+        account_data = self.sobject.Account.read(account_id)
 
         # Test to ensure Account data is None
         self.assertIsNone(account_data)
@@ -187,7 +285,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         """
 
         # Get the read Account success data
-        read_account_success = self._data["account"]["read_account_success"]
+        read_account_success = self.data["account"]["read_account_success"]
 
         # Create the payload
         payload = {
@@ -196,7 +294,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         }
 
         # Make a request to update the Account
-        account = self._sobject.Account.update(read_account_success["id"], payload)
+        account = self.sobject.Account.update(read_account_success["id"], payload)
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -220,7 +318,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         }
 
         # Make a request to update the Account
-        account = self._sobject.Account.update(account_id, payload)
+        account = self.sobject.Account.update(account_id, payload)
 
         # Test to ensure HTTP status code is not 204 No Content
         self.assertNotEqual(account, 204)
@@ -235,18 +333,18 @@ class TestRestSObjectAccount(unittest.TestCase):
         """
 
         # Get the delete Account success data
-        delete_account_success = self._data["account"]["delete_account_success"]
+        delete_account_success = self.data["account"]["delete_account_success"]
 
         # Make a request to delete the Account
-        account = self._sobject.Account.delete(delete_account_success["id"])
+        account = self.sobject.Account.delete(delete_account_success["id"])
 
         # Delete the Account entry from the Test Data
-        if "delete_account_success" in self._data["account"]:
-            del self._data["account"]["delete_account_success"]
+        if "delete_account_success" in self.data["account"]:
+            del self.data["account"]["delete_account_success"]
 
         # Write the new Test Data to file
-        with open(self._test_data_file, "w") as f:
-            json.dump(self._data, f)
+        with open(self.test_data_file, "w") as f:
+            json.dump(self.data, f)
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -265,7 +363,7 @@ class TestRestSObjectAccount(unittest.TestCase):
         account_id = "".join(random.choice(string.ascii_letters + string.digits) for i in range(8))
 
         # Make a request to delete the Account
-        account = self._sobject.Account.delete(account_id)
+        account = self.sobject.Account.delete(account_id)
 
         # Test to ensure HTTP status code is not 204 No Content
         self.assertNotEqual(account, 204)
@@ -283,18 +381,18 @@ class TestRestSObjectAccount(unittest.TestCase):
         """
         
         # Get the read Account success data
-        read_account_success = cls._data["account"]["read_account_success"]
+        read_account_success = cls.data["account"]["read_account_success"]
 
         # Make a request to delete the Account
-        account = cls._sobject.Account.delete(read_account_success["id"])
+        account = cls.sobject.Account.delete(read_account_success["id"])
 
         # Delete the Account entry from the Test Data
-        if "read_account_success" in cls._data["account"]:
-            del cls._data["account"]["read_account_success"]
+        if "read_account_success" in cls.data["account"]:
+            del cls.data["account"]["read_account_success"]
 
         # Write the new Test Data to file
-        with open(cls._test_data_file, "w") as f:
-            json.dump(cls._data, f)
+        with open(cls.test_data_file, "w") as f:
+            json.dump(cls.data, f)
 
         # Return the response
         return account
