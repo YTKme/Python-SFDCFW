@@ -15,8 +15,7 @@ from SFDCAPI.Constant.Constant import HTTP_PATCH
 from SFDCAPI.Constant.Constant import HTTP_DELETE
 
 class SObject(Rest):
-    """SObject class.
-    """
+    """SObject class."""
 
     def __init__(self, access):
         """Constructor
@@ -31,14 +30,15 @@ class SObject(Rest):
         
         # Parse the URL
         u = urlparse(self.url)
-        self.url = "{scheme}://{netloc}".format(scheme=u.scheme, netloc=u.netloc)
+        self.url = '{scheme}://{netloc}'.format(scheme=u.scheme, netloc=u.netloc)
 
         # Create REST header
-        self._header = {
-            "Authorization": "Bearer " + self.id_token,
-            "Content-Type": "application/json; charset=utf-8",
-            "Accept": "application/json"
+        self.header = {
+            'Authorization': 'Bearer {id_token}'.format(id_token=self.id_token),
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json'
         }
+
 
     def __getattr__(self, label):
         """Get Attribute Passed In.
@@ -67,7 +67,9 @@ class SObject(Rest):
         """
         
         # Create the request URL
-        request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label
+        request_url = '{base}/services/data/v{version}/sobjects/{sobject}'.format(base=self.url,
+                                                                                  version=SFDC_API_V,
+                                                                                  sobject=self.label)
 
         # Send the request
         r = self.send(HTTP_POST,
@@ -167,3 +169,57 @@ class SObject(Rest):
 
         # There was an error
         return None
+
+
+    def find_by_id(self, id):
+        """Find By ID.
+
+        Args:
+            id (str): The ID of the SObject.
+
+        Returns:
+            A string formatted JSON for the HTTP response object.
+        """
+        
+        # Create the request URL
+        request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label + "/" + id
+
+        # Send the request
+        r = self.send(HTTP_GET, request_url, None)
+
+        return r.text
+
+
+    # def query(self, query):
+    #     """Execute SOQL (Salesforce Object Query Language) Query
+
+    #     Args:
+    #         query (str): The SOQL (Salesforce Object Query Language) query
+
+    #     Returns:
+    #         A string formatted JSON for the query response
+    #     """
+
+    #     # Create the request URL
+    #     request_url = "/query/?q=" + query
+
+    #     # Send the request
+    #     r = self.send(HTTP_GET, request_url, None)
+
+    #     return r.text
+
+
+    # def query_more(self, next_record_url):
+    #     """Query Next Record Batch
+
+    #     Args:
+    #         next_record_url (str): The URL for the next batch of records
+
+    #     Returns:
+    #         A string formatted JSON for the query response
+    #     """
+
+    #     # Send the request
+    #     r = self.send(HTTP_GET, next_record_url, None)
+
+    #     return r.text
