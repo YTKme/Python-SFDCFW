@@ -99,14 +99,21 @@ class SObject(Rest):
         """
 
         if id is not None:
-            # Create the request URL with unique identifier (ID) of the SObject
-            request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label + '/' + id
+            # Create the request URL with ID
+            request_url = '{base}/services/data/v{version}/sobjects/{sobject}/{id}'.format(base=self.url,
+                                                                                        version=SFDC_API_V,
+                                                                                        sobject=self.label,
+                                                                                        id=id)
         else:
-            # Create the base request URL
-            request_url = '/services/data/v' + SFDC_API_V + '/sobjects/' + self.label
+            # Create the request URL without ID
+            request_url = '{base}/services/data/v{version}/sobjects/{sobject}'.format(base=self.url,
+                                                                                    version=SFDC_API_V,
+                                                                                    sobject=self.label)
 
         # Send the request
-        r = self.send(HTTP_GET, request_url)
+        r = self.send(HTTP_GET,
+                      request_url,
+                      header=self.header)
 
         # Check the status code
         if r.status_code == 200:
@@ -129,13 +136,16 @@ class SObject(Rest):
         """
 
         # Create the request URL
-        request_url = '/sobjects/' + self.label + '/' + id
+        request_url = '{base}/services/data/v{version}/sobjects/{sobject}/{id}'.format(base=self.url,
+                                                                                    version=SFDC_API_V,
+                                                                                    sobject=self.label,
+                                                                                    id=id)
 
         # Send the request
         r = self.send(HTTP_PATCH,
                       request_url,
                       header=self.header,
-                      payload=json.dumps(data))
+                      payload=data)
 
         # Check the status code
         if r.status_code == 204:
@@ -157,10 +167,15 @@ class SObject(Rest):
         """
 
         # Create the request URL
-        request_url = '/sobjects/' + self.label + '/' + id
+        request_url = '{base}/services/data/v{version}/sobjects/{sobject}/{id}'.format(base=self.url,
+                                                                                       version=SFDC_API_V,
+                                                                                       sobject=self.label,
+                                                                                       id=id)
 
         # Send the request
-        r = self.send(HTTP_DELETE, request_url)
+        r = self.send(HTTP_DELETE,
+                      request_url,
+                      header=self.header)
 
         # Check the status code
         if r.status_code == 204:
@@ -169,25 +184,6 @@ class SObject(Rest):
 
         # There was an error
         return None
-
-
-    def find_by_id(self, id):
-        """Find By ID.
-
-        Args:
-            id (str): The ID of the SObject.
-
-        Returns:
-            A string formatted JSON for the HTTP response object.
-        """
-        
-        # Create the request URL
-        request_url = "/services/data/v" + SFDC_API_V + "/sobjects/" + self.label + "/" + id
-
-        # Send the request
-        r = self.send(HTTP_GET, request_url, None)
-
-        return r.text
 
 
     # def query(self, query):
