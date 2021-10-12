@@ -1,6 +1,6 @@
 """
-SFDCAPI.Test.Test
-~~~~~~~~~~~~~~~~~
+SFDCAPI.Test.TestRestSObjectAccount
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
 import json
