@@ -7,8 +7,8 @@ import json
 import os
 import unittest
 
-from SFDCAPI.Authentication.Access import Access
-from SFDCAPI.Constant.Constant import TEST_DATA
+from SFDCAPI.Access import Access
+from SFDCAPI.Constant import TEST_DATA
 
 
 def setUpModule():
@@ -44,7 +44,7 @@ class TestRestAccess(unittest.TestCase):
         cls.domain = cls.data['domain']
 
 
-    def test_rest_login_success(self):
+    def test_login_rest_success(self):
         """Test a success of REST (REpresentational State Transfer) login method.
 
         Get the success username and password (rest_access_user_success)
@@ -67,7 +67,7 @@ class TestRestAccess(unittest.TestCase):
         self.assertEqual(type(access), tuple)
 
 
-    def test_rest_login_failure(self):
+    def test_login_rest_failure(self):
         """Test a failure of REST (REpresentational State Transfer) login method.
 
         Get the failure username and password (rest_access_user_failure)

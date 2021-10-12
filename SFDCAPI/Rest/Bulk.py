@@ -6,11 +6,11 @@ from SFDCAPI.Rest.Rest import Rest
 
 import pandas as pd
 
-from SFDCAPI.Constant.Constant import SFDC_API_V
-from SFDCAPI.Constant.Constant import HTTP_GET
-from SFDCAPI.Constant.Constant import HTTP_POST
-from SFDCAPI.Constant.Constant import HTTP_PATCH
-from SFDCAPI.Constant.Constant import HTTP_PUT
+from SFDCAPI.Constant import SFDC_API_V
+from SFDCAPI.Constant import HTTP_GET
+from SFDCAPI.Constant import HTTP_POST
+from SFDCAPI.Constant import HTTP_PATCH
+from SFDCAPI.Constant import HTTP_PUT
 
 class Bulk(Rest):
     """Bulk API.

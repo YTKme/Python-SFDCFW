@@ -2,7 +2,7 @@
 Salesforce Constant
 """
 
-SFDC_API_V = '49.0'
+SFDC_API_V = '53.0'
 
 HTTP_GET = 'GET'
 HTTP_POST = 'POST'

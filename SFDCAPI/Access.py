@@ -4,7 +4,7 @@ SFDCAPI.Authentication.Access
 """
 
 import requests
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
 from zeep import Client, Settings, exceptions
 
 # try:
@@ -14,10 +14,11 @@ from zeep import Client, Settings, exceptions
 #     # Python Older
 #     from cgi import escape
 
-from SFDCAPI.Constant.Constant import SFDC_API_V
+from SFDCAPI.Constant import SFDC_API_V
 
 
-class Access(object):
+class Access:
+    """Access."""
 
     def __init__(self,
                  username=None,
@@ -49,9 +50,8 @@ class Access(object):
         self.client_id = client_id
         self.client_secret = client_secret
         self.access_token = None
-        self.version = version
-        self.soap_url = "https://{}.salesforce.com/services/Soap/u/{}".format(domain, version)
-        self.rest_url = "https://{}.salesforce.com/services/oauth2/token".format(domain)
+        self.soap_url = f'https://{domain}.salesforce.com/services/Soap/u/{version}'
+        self.rest_url = f'https://{domain}.salesforce.com/services/oauth2/token'
         self.metadata = metadata
         self.wsdl = wsdl
 
@@ -71,33 +71,36 @@ class Access(object):
                                                          self.client_id,
                                                          self.client_secret]):
             # If username, password, security token, client ID, client secret is provided, login with REST
-            return self._login_rest(username=self.username,
-                                    password=self.password,
-                                    security_token=self.security_token,
-                                    client_id=self.client_id,
-                                    client_secret=self.client_secret,
-                                    url=self.rest_url)
+            return self.login_rest(username=self.username,
+                                   password=self.password,
+                                   security_token=self.security_token,
+                                   client_id=self.client_id,
+                                   client_secret=self.client_secret,
+                                   url=self.rest_url)
 
         # Check if username, password is provide
         elif all(credential is not None for credential in [self.username,
                                                            self.password,
                                                            self.security_token]):
             # If username, password is provided, login with SOAP
-            return self._login_soap(username=self.username,
-                                    password=self.password,
-                                    security_token=self.security_token,
-                                    url=self.soap_url,
-                                    wsdl=self.wsdl,
-                                    metadata=self.metadata)
+            return self.login_soap(username=self.username,
+                                   password=self.password,
+                                   security_token=self.security_token,
+                                   url=self.soap_url,
+                                   wsdl=self.wsdl,
+                                   metadata=self.metadata)
+        
+        # There is an error
+        return None
     
 
-    def _login_rest(self,
-                    username=None,
-                    password=None,
-                    security_token=None,
-                    client_id=None,
-                    client_secret=None,
-                    url=None):
+    def login_rest(self,
+                   username=None,
+                   password=None,
+                   security_token=None,
+                   client_id=None,
+                   client_secret=None,
+                   url=None):
         """Login via REST (REpresentational State Transfer)
 
         Args:
@@ -140,13 +143,13 @@ class Access(object):
         return None
 
 
-    def _login_soap(self,
-                    username=None,
-                    password=None,
-                    security_token=None,
-                    url=None,
-                    wsdl=None,
-                    metadata=False):
+    def login_soap(self,
+                   username=None,
+                   password=None,
+                   security_token=None,
+                   url=None,
+                   wsdl=None,
+                   metadata=False):
         """Login via SOAP (Simple Object Access Protocol)
 
         Args:

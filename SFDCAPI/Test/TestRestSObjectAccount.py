@@ -9,9 +9,9 @@ import random
 import string
 import unittest
 
-from SFDCAPI.Authentication.Access import Access
-from SFDCAPI.Rest.SObject import SObject
-from SFDCAPI.Constant.Constant import TEST_DATA
+from SFDCAPI.Access import Access
+from SFDCAPI.SObject import SObject
+from SFDCAPI.Constant import TEST_DATA
 
 
 def setUpModule():
@@ -35,7 +35,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         """Prepare test setup class.
 
         Get the data from JSON (JavaScript Object Notation) file and
-        login.
+        login. Initialize any prerequisite.
         """
 
         # Get the current directory of the file
@@ -75,7 +75,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to create the Account
@@ -84,7 +84,8 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         account_id = self.sobject.Account.create(json.dumps(payload))
 
         # Variable `self.data` come from `cls.data`
-        # Create the dictionary
+        # Create the dictionary for Account data
+        self.data['account'] = {}
         self.data['account']['rest_create_account_success'] = {}
         # Create or update the Account ID in the Test Data
         self.data['account']['rest_create_account_success']['id'] = account_id
@@ -108,7 +109,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Description
-            'Description': "Description-{}".format(random.randrange(10000, 99999))
+            'Description': f'Description-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to create the Account
@@ -127,11 +128,22 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         Clean up Test Data
         """
 
-        # Get the REST create Account success data
-        rest_create_account_success = cls.data['account']['rest_create_account_success']
+        # Check if Account data exist
+        if 'account' in cls.data:
+            # Get the REST create Account success data
+            rest_create_account_success_id = cls.data['account']['rest_create_account_success']['id']
 
-        # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(rest_create_account_success['id'])
+            # Make a request to delete the Account
+            rest_create_account_success = cls.sobject.Account.delete(rest_create_account_success_id)
+
+            # Check if the delete was successful
+            if rest_create_account_success == 204:
+                # Delete the Account entry from the Test Data
+                del cls.data['account']
+
+            # Write the new Test Data to file
+            with open(cls.test_data_file, 'w') as f:
+                json.dump(cls.data, f)
 
 
 class TestRestSObjectReadAccount(unittest.TestCase):
@@ -177,22 +189,13 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = cls.sobject.Account.create(json.dumps(payload))
-
-        # Create the dictionary
-        cls.data['account']['rest_read_account_success'] = {}
-        # Create or update the Account ID in the Test Data
-        cls.data['account']['rest_read_account_success']['id'] = account_id
-
-        # Write the new Test Data to file
-        with open(cls.test_data_file, 'w') as f:
-            json.dump(cls.data, f)
+        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
 
 
     def test_rest_sobject_read_account_success(self):
@@ -202,12 +205,9 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         a string and status code 200 OK.
         """
 
-        # Get the REST read Account success data
-        account_id = self.data['account']['rest_read_account_success']['id']
-
         # Make a request to read the Account
         # Get the return Account data
-        account_data = self.sobject.Account.read(account_id)
+        account_data = self.sobject.Account.read(self.account_id)
 
         # Test to ensure Account data is a string
         self.assertEqual(type(account_data), str)
@@ -240,11 +240,8 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         Clean up Test Data
         """
 
-        # Get the REST read Account success data
-        rest_read_account_success = cls.data['account']['rest_read_account_success']
-
         # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(rest_read_account_success['id'])
+        _ = cls.sobject.Account.delete(cls.account_id)
 
 
 class TestRestSObjectUpdateAccount(unittest.TestCase):
@@ -290,22 +287,13 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = cls.sobject.Account.create(json.dumps(payload))
-
-        # Create the dictionary
-        cls.data['account']['rest_update_account_success'] = {}
-        # Create or update the Account ID in the Test Data
-        cls.data['account']['rest_update_account_success']['id'] = account_id
-
-        # Write the new Test Data to file
-        with open(cls.test_data_file, 'w') as f:
-            json.dump(cls.data, f)
+        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
 
 
     def test_rest_sobject_update_account_success(self):
@@ -315,17 +303,14 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         result in response with status code 204 No Content.
         """
 
-        # Get the read Account success data
-        rest_update_account_success = self.data['account']['rest_update_account_success']
-
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to update the Account
-        account = self.sobject.Account.update(rest_update_account_success['id'], json.dumps(payload))
+        account = self.sobject.Account.update(self.account_id, json.dumps(payload))
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -345,7 +330,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to update the Account
@@ -362,11 +347,8 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         Clean up Test Data
         """
 
-        # Get the REST read Account success data
-        rest_update_account_success = cls.data['account']['rest_update_account_success']
-
         # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(rest_update_account_success['id'])
+        _ = cls.sobject.Account.delete(cls.account_id)
 
 
 class TestRestSObjectDeleteAccount(unittest.TestCase):
@@ -412,22 +394,13 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         # Create the payload
         payload = {
             # Generate a random Account Name
-            'Name': "Account-{}".format(random.randrange(10000, 99999))
+            'Name': f'Account-{random.randrange(10000, 99999)}'
         }
 
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = cls.sobject.Account.create(json.dumps(payload))
-
-        # Create the dictionary
-        cls.data['account']['rest_delete_account_success'] = {}
-        # Create or update the Account ID in the Test Data
-        cls.data['account']['rest_delete_account_success']['id'] = account_id
-
-        # Write the new Test Data to file
-        with open(cls.test_data_file, 'w') as f:
-            json.dump(cls.data, f)
+        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
 
 
     def test_rest_sobject_delete_account_success(self):
@@ -438,11 +411,8 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         status code 204 No Content.
         """
 
-        # Get the delete Account success data
-        delete_account_success = self.data['account']['rest_delete_account_success']
-
         # Make a request to delete the Account
-        account = self.sobject.Account.delete(delete_account_success['id'])
+        account = self.sobject.Account.delete(self.account_id)
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -474,13 +444,8 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         Clean up Test Data
         """
 
-        # Delete the Account entry from the Test Data
-        if 'rest_delete_account_success' in cls.data['account']:
-            del cls.data['account']['rest_delete_account_success']
-
-        # Write the new Test Data to file
-        with open(cls.test_data_file, 'w') as f:
-            json.dump(cls.data, f)
+        # Make a request to delete the Account
+        _ = cls.sobject.Account.delete(cls.account_id)
 
 
 def suite():
