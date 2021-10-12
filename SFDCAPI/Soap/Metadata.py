@@ -4,20 +4,20 @@ Metadata API
 Metadata Coverage
 
 .. _Metadata Coverage:
-   https://developer.salesforce.com/docs/metadata-coverage/47
+   https://developer.salesforce.com/docs/metadata-coverage/53
 """
 
-import requests
 import threading
 import sys
 # import xml.etree.ElementTree as ET
+import requests
 
 from zeep import Client, Settings
 
-from SFDCAPI.Constant.Constant import SFDC_API_V
-from SFDCAPI.Message.Message import RETRIEVE_MESSAGE 
+from SFDCAPI.Constant import SFDC_API_V
 
 class Metadata:
+    """Metadata class."""
 
     def __init__(self, access, wsdl):
         """Constructor
@@ -32,8 +32,8 @@ class Metadata:
         self.id_token, self.url = access
 
         # Create client with setting of disable strict mode, use recovery mode
-        setting = Settings(strict = False)
-        client = Client(wsdl, settings = setting)
+        setting = Settings(strict=False)
+        client = Client(wsdl, settings=setting)
         # Create the service with custom binding and URL
         binding = "{http://soap.sforce.com/2006/04/metadata}MetadataBinding"
         self.service = client.create_service(binding, self.url)
