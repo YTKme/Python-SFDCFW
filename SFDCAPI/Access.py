@@ -1,6 +1,6 @@
 """
-SFDCAPI.Authentication.Access
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SFDCAPI.Access
+~~~~~~~~~~~~~~
 """
 
 import requests
