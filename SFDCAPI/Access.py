@@ -21,9 +21,9 @@ class Access:
     """Access."""
 
     def __init__(self,
-                 username=None,
-                 password=None,
-                 security_token=None,
+                 username,
+                 password,
+                 security_token,
                  client_id=None,
                  client_secret=None,
                  version=SFDC_API_V,
@@ -52,8 +52,8 @@ class Access:
         self.access_token = None
         self.soap_url = f'https://{domain}.salesforce.com/services/Soap/u/{version}'
         self.rest_url = f'https://{domain}.salesforce.com/services/oauth2/token'
-        self.metadata = metadata
         self.wsdl = wsdl
+        self.metadata = metadata
 
 
     def login(self):
@@ -95,9 +95,9 @@ class Access:
     
 
     def login_rest(self,
-                   username=None,
-                   password=None,
-                   security_token=None,
+                   username,
+                   password,
+                   security_token,
                    client_id=None,
                    client_secret=None,
                    url=None):
@@ -144,9 +144,9 @@ class Access:
 
 
     def login_soap(self,
-                   username=None,
-                   password=None,
-                   security_token=None,
+                   username,
+                   password,
+                   security_token,
                    url=None,
                    wsdl=None,
                    metadata=False):
