@@ -204,4 +204,4 @@ cython_debug/
 # Test Data
 *.wsdl
 *.zeep
-SFDCAPI/Test/TestData.json
+SFDCFW/Test/TestData.json
