@@ -7,7 +7,7 @@ long_description = (current_directory/'README.md').read_text()
 
 setup(
     name = 'sfdcapi',
-    version = '0.1.0',
+    version = '0.1.3',
     packages = find_packages(),
 
     # Dependency
@@ -20,7 +20,7 @@ setup(
     # Metadata
     author = 'Yan Kuang',
     author_email = 'YTKme@Outlook.com',
-    description = 'Saleforce Application Programming Interface.',
+    description = 'Saleforce.com FrameWork.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     classifiers = [
@@ -29,5 +29,5 @@ setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.5',
-    keywords = 'salesforce sfdc api',
+    keywords = 'salesforce sfdc fw api',
 )
