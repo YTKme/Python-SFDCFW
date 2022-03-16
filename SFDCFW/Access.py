@@ -1,6 +1,6 @@
 """
-SFDCAPI.Access
-~~~~~~~~~~~~~~
+SFDCFW.Access
+~~~~~~~~~~~~~
 """
 
 import requests
@@ -14,7 +14,7 @@ from zeep import Client, Settings, exceptions
 #     # Python Older
 #     from cgi import escape
 
-from SFDCAPI.Constant import SFDC_API_V
+from SFDCFW.Constant import SFDC_API_V
 
 
 class Access:

@@ -1,14 +1,14 @@
 """
-SFDCAPI.Test.TestAccess
-~~~~~~~~~~~~~~~~~~~~~~~
+SFDCFW.Test.TestAccess
+~~~~~~~~~~~~~~~~~~~~~~
 """
 
 import json
 import os
 import unittest
 
-from SFDCAPI.Access import Access
-from SFDCAPI.Constant import TEST_DATA
+from SFDCFW.Access import Access
+from SFDCFW.Constant import TEST_DATA
 
 
 def setUpModule():
@@ -53,7 +53,7 @@ class TestRestAccess(unittest.TestCase):
         """
 
         # Get the REST Access user data for success login
-        rest_access_user_success = self.data['user']['rest_access_user_success']
+        rest_access_user_success = self.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_success['username'],
@@ -76,7 +76,7 @@ class TestRestAccess(unittest.TestCase):
         """
 
         # Get the REST Access user data for failure login
-        rest_access_user_failure = self.data['user']['rest_access_user_failure']
+        rest_access_user_failure = self.data['user']['access_user_failure']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_failure['username'],
@@ -127,7 +127,7 @@ class TestSoapAccess(unittest.TestCase):
         """
 
         # Get the SOAP Access user data for success login
-        soap_access_user_success = self.data['user']['soap_access_user_success']
+        soap_access_user_success = self.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=soap_access_user_success['username'],
@@ -150,7 +150,7 @@ class TestSoapAccess(unittest.TestCase):
         """
 
         # Get the SOAP Access user data for failure login
-        soap_access_user_failure = self.data['user']['soap_access_user_failure']
+        soap_access_user_failure = self.data['user']['access_user_failure']
 
         # Create an instance of Access object and login
         access = Access(username=soap_access_user_failure['username'],
