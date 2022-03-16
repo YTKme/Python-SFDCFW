@@ -4,7 +4,7 @@ Metadata API
 Metadata Coverage
 
 .. _Metadata Coverage:
-   https://developer.salesforce.com/docs/metadata-coverage/53
+   https://developer.salesforce.com/docs/metadata-coverage/54
 """
 
 import threading
@@ -14,7 +14,7 @@ import requests
 
 from zeep import Client, Settings
 
-from SFDCAPI.Constant import SFDC_API_V
+from SFDCFW.Constant import SFDC_API_V
 
 class Metadata:
     """Metadata class."""

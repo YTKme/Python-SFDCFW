@@ -1,6 +1,6 @@
 import csv
 #
-from SFDCAPI.Soap.Metadata import Metadata
+from SFDCFW.Soap.Metadata import Metadata
 
 class CustomField(Metadata):
     """Custom Field.
