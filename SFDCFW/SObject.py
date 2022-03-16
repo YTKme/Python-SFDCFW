@@ -1,6 +1,6 @@
 """
-SFDCAPI.Rest.SObject
-~~~~~~~~~~~~~~~~~~~~
+SFDCFW.Rest.SObject
+~~~~~~~~~~~~~~~~~~~
 """
 
 import json
@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from SFDCAPI.Constant import SFDC_API_V
+from SFDCFW.Constant import SFDC_API_V
 
 class SObject:
     """SObject class."""
