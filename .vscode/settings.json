@@ -2,7 +2,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./SFDCAPI/Test",
+        "./SFDCFW/Test",
         "-p",
         "*Test*.py"
     ]
