@@ -1,15 +1,18 @@
 """
-SFDCAPI.SFDCAPI
-~~~~~~~~~~~~~~~
+SFDCFW.SFDCFW
+~~~~~~~~~~~~~
 """
 
-from SFDCAPI.Access import Access
+from urllib.parse import urlparse
 
-from SFDCAPI.Constant import SFDC_API_V
+from SFDCFW.Access import Access
+from SFDCFW.Rest.SObject import SObject
+
+from SFDCFW.Constant import SFDC_API_V
 
 
-class SFDCAPI:
-    """SFDCAPI."""
+class SFDCFW(SObject):
+    """Salesforce.com FrameWork."""
 
     def __init__(self,
                  username=None,
@@ -36,12 +39,26 @@ class SFDCAPI:
         """
 
         # Create an instance of Access object and login
-        self.access = Access(username=username,
-                             password=password,
-                             security_token=security_token,
-                             client_id=client_id,
-                             client_secret=client_secret,
-                             version=version,
-                             domain=domain,
-                             wsdl=wsdl,
-                             metadata=metadata).login()
+        access = Access(username=username,
+                        password=password,
+                        security_token=security_token,
+                        client_id=client_id,
+                        client_secret=client_secret,
+                        version=version,
+                        domain=domain,
+                        wsdl=wsdl,
+                        metadata=metadata).login()
+
+        # Unpack the tuple for session ID / access token and server URL / instance URL
+        id_token, base_url = access
+
+        # Parse the URL
+        u = urlparse(base_url)
+        self.base_url = f'{u.scheme}://{u.netloc}'
+
+        # Create REST header
+        self.header = {
+            'Authorization': f'Bearer {id_token}',
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json'
+        }
