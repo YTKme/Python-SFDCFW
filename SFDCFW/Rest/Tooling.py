@@ -5,10 +5,10 @@ Tooling API
 import json
 from urllib.parse import urlencode
 
-from SFDCAPI.Rest.Rest import Rest
-from SFDCAPI.Constant.Constant import SFDC_API_V
-from SFDCAPI.Constant.Constant import HTTP_GET
-from SFDCAPI.Constant.Constant import HTTP_PATCH
+from SFDCFW.Rest.Rest import Rest
+from SFDCFW.Constant.Constant import SFDC_API_V
+from SFDCFW.Constant.Constant import HTTP_GET
+from SFDCFW.Constant.Constant import HTTP_PATCH
 
 class Tooling(Rest):
     """Tooling API.

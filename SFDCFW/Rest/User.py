@@ -1,7 +1,7 @@
 import json
 
-from SFDCAPI.Rest.SObject import SObject
-from SFDCAPI.Constant.Constant import HTTP_GET
+from SFDCFW.Rest.SObject import SObject
+from SFDCFW.Constant.Constant import HTTP_GET
 
 class User(SObject):
     """User API
