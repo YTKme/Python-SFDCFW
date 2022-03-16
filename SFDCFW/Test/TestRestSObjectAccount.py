@@ -10,7 +10,7 @@ import string
 import unittest
 
 from SFDCFW.Access import Access
-from SFDCFW.Rest.SObject import SObject
+from SFDCFW.SObject import SObject
 from SFDCFW.Constant import TEST_DATA
 
 
@@ -51,7 +51,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         domain = cls.data['domain']
 
         # Get the REST Access user data for success login
-        rest_access_user_success = cls.data['user']['rest_access_user_success']
+        rest_access_user_success = cls.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_success['username'],
@@ -173,7 +173,7 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         domain = cls.data['domain']
 
         # Get the REST Access user data for success login
-        rest_access_user_success = cls.data['user']['rest_access_user_success']
+        rest_access_user_success = cls.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_success['username'],
@@ -271,7 +271,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         domain = cls.data['domain']
 
         # Get the REST Access user data for success login
-        rest_access_user_success = cls.data['user']['rest_access_user_success']
+        rest_access_user_success = cls.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_success['username'],
@@ -378,7 +378,7 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         domain = cls.data['domain']
 
         # Get the REST Access user data for success login
-        rest_access_user_success = cls.data['user']['rest_access_user_success']
+        rest_access_user_success = cls.data['user']['access_user_success']
 
         # Create an instance of Access object and login
         access = Access(username=rest_access_user_success['username'],
