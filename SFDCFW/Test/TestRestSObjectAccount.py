@@ -1,6 +1,6 @@
 """
-SFDCAPI.Test.TestRestSObjectAccount
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SFDCFW.Test.TestRestSObjectAccount
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
 import json
@@ -9,9 +9,9 @@ import random
 import string
 import unittest
 
-from SFDCAPI.Access import Access
-from SFDCAPI.SObject import SObject
-from SFDCAPI.Constant import TEST_DATA
+from SFDCFW.Access import Access
+from SFDCFW.Rest.SObject import SObject
+from SFDCFW.Constant import TEST_DATA
 
 
 def setUpModule():

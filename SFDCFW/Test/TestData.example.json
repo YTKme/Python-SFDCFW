@@ -3,29 +3,19 @@
     "enterprise_wsdl": "enterprise.wsdl",
     "metadata_wsdl": "metadata.wsdl",
     "user": {
-        "rest_access_user_success": {
+        "access_user_success": {
             "username": "<username>",
             "password": "<password>",
             "security_token": "<security_token>",
             "consumer_key": "<consumer_key>",
             "consumer_secret": "<consumer_secret>"
         },
-        "rest_access_user_failure": {
+        "access_user_failure": {
             "username": "<username>",
             "password": "RandomPassword",
             "security_token": "RandomSecurityToken",
             "consumer_key": "RandomConsumerKey",
             "consumer_secret": "RandomConsumerSecret"
-        },
-        "soap_access_user_success": {
-            "username": "<username>",
-            "password": "<password>",
-            "security_token": "<security_token>"
-        },
-        "soap_access_user_failure": {
-            "username": "<username>",
-            "password": "RandomPassword",
-            "security_token": "RandomSecurityToken"
         }
     },
     "account": {
