@@ -6,8 +6,8 @@ current_directory = Path(__file__).parent
 long_description = (current_directory/'README.md').read_text()
 
 setup(
-    name = 'sfdcapi',
-    version = '0.1.3',
+    name = 'sfdcfw',
+    version = '0.1.4',
     packages = find_packages(),
 
     # Dependency
