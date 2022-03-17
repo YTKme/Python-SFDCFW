@@ -1,6 +1,6 @@
-# Python Salesforce Application Programming Interface
+# Python Salesforce.com FrameWork
 
-Python Salesforce Application Programming Interface
+Python Salesforce.com FrameWork
 
 | API Name           | Protocol            | Data Format       | Communication                                     |
 |--------------------|---------------------|-------------------|---------------------------------------------------|
