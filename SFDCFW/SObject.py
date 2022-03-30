@@ -10,6 +10,7 @@ import requests
 
 from SFDCFW.Constant import SFDC_API_V
 
+
 class SObject:
     """SObject class."""
 
