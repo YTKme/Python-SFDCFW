@@ -173,7 +173,6 @@ class Access:
         if r is not None:
             # Get the sessionId
             session_id = r['sessionId']
-
             # Get the `serverUrl`
             server_url = r['serverUrl']
 
