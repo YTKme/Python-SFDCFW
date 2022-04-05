@@ -134,8 +134,7 @@ class TestSoapAccess(unittest.TestCase):
                         password=soap_access_user_success['password'],
                         security_token=soap_access_user_success['security_token'],
                         domain=self.domain,
-                        wsdl=self.enterprise_wsdl,
-                        metadata=True).login()
+                        wsdl=self.enterprise_wsdl).login()
 
         # Test to ensure `access` is a tuple
         self.assertEqual(type(access), tuple)
@@ -157,8 +156,7 @@ class TestSoapAccess(unittest.TestCase):
                         password=soap_access_user_failure['password'],
                         security_token=soap_access_user_failure['security_token'],
                         domain=self.domain,
-                        wsdl=self.enterprise_wsdl,
-                        metadata=True).login()
+                        wsdl=self.enterprise_wsdl).login()
 
         # Test to ensure `access` is `None`
         self.assertIsNone(access)
