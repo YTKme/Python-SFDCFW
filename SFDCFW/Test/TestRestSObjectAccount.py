@@ -81,7 +81,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = self.sobject.Account.create(json.dumps(payload))
+        account_id = self.sobject.Account.sobject_create(json.dumps(payload))
 
         # Variable `self.data` come from `cls.data`
         # Create the dictionary for Account data
@@ -115,7 +115,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        account_id = self.sobject.Account.create(json.dumps(payload))
+        account_id = self.sobject.Account.sobject_create(json.dumps(payload))
 
         # Test to ensure Account ID is None
         self.assertEqual(account_id, None)
@@ -134,7 +134,7 @@ class TestRestSObjectCreateAccount(unittest.TestCase):
             rest_create_account_success_id = cls.data['account']['rest_create_account_success']['id']
 
             # Make a request to delete the Account
-            rest_create_account_success = cls.sobject.Account.delete(rest_create_account_success_id)
+            rest_create_account_success = cls.sobject.Account.sobject_delete(rest_create_account_success_id)
 
             # Check if the delete was successful
             if rest_create_account_success == 204:
@@ -195,7 +195,7 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
+        cls.account_id = cls.sobject.Account.sobject_create(json.dumps(payload))
 
 
     def test_rest_sobject_read_account_success(self):
@@ -207,7 +207,7 @@ class TestRestSObjectReadAccount(unittest.TestCase):
 
         # Make a request to read the Account
         # Get the return Account data
-        account_data = self.sobject.Account.read(self.account_id)
+        account_data = self.sobject.Account.sobject_read(self.account_id)
 
         # Test to ensure Account data is a string
         self.assertEqual(type(account_data), str)
@@ -227,7 +227,7 @@ class TestRestSObjectReadAccount(unittest.TestCase):
 
         # Make a request to read the Account
         # Get the return Account data
-        account_data = self.sobject.Account.read(account_id)
+        account_data = self.sobject.Account.sobject_read(account_id)
 
         # Test to ensure Account data is None
         self.assertIsNone(account_data)
@@ -241,7 +241,7 @@ class TestRestSObjectReadAccount(unittest.TestCase):
         """
 
         # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(cls.account_id)
+        _ = cls.sobject.Account.sobject_delete(cls.account_id)
 
 
 class TestRestSObjectUpdateAccount(unittest.TestCase):
@@ -293,7 +293,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
+        cls.account_id = cls.sobject.Account.sobject_create(json.dumps(payload))
 
 
     def test_rest_sobject_update_account_success(self):
@@ -310,7 +310,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         }
 
         # Make a request to update the Account
-        account = self.sobject.Account.update(self.account_id, json.dumps(payload))
+        account = self.sobject.Account.sobject_update(self.account_id, json.dumps(payload))
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -334,7 +334,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         }
 
         # Make a request to update the Account
-        account = self.sobject.Account.update(account_id, json.dumps(payload))
+        account = self.sobject.Account.sobject_update(account_id, json.dumps(payload))
 
         # Test to ensure HTTP status code is not 204 No Content
         self.assertNotEqual(account, 204)
@@ -348,7 +348,7 @@ class TestRestSObjectUpdateAccount(unittest.TestCase):
         """
 
         # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(cls.account_id)
+        _ = cls.sobject.Account.sobject_delete(cls.account_id)
 
 
 class TestRestSObjectDeleteAccount(unittest.TestCase):
@@ -400,7 +400,7 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         # Make a request to create the Account
         # Get the return unique identifier (ID)
         # The payload need to be serialized to JSON formatted str (json.dumps)
-        cls.account_id = cls.sobject.Account.create(json.dumps(payload))
+        cls.account_id = cls.sobject.Account.sobject_create(json.dumps(payload))
 
 
     def test_rest_sobject_delete_account_success(self):
@@ -412,7 +412,7 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         """
 
         # Make a request to delete the Account
-        account = self.sobject.Account.delete(self.account_id)
+        account = self.sobject.Account.sobject_delete(self.account_id)
 
         # Test to ensure HTTP status code is 204 No Content
         self.assertEqual(account, 204)
@@ -431,7 +431,7 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         account_id = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(8))
 
         # Make a request to delete the Account
-        account = self.sobject.Account.delete(account_id)
+        account = self.sobject.Account.sobject_delete(account_id)
 
         # Test to ensure HTTP status code is not 204 No Content
         self.assertNotEqual(account, 204)
@@ -445,7 +445,7 @@ class TestRestSObjectDeleteAccount(unittest.TestCase):
         """
 
         # Make a request to delete the Account
-        _ = cls.sobject.Account.delete(cls.account_id)
+        _ = cls.sobject.Account.sobject_delete(cls.account_id)
 
 
 def suite():
