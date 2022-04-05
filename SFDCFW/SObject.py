@@ -53,7 +53,7 @@ class SObject:
         return self
 
 
-    def create(self, payload):
+    def sobject_create(self, payload):
         """Create SObject.
 
         Args:
@@ -82,7 +82,7 @@ class SObject:
         return None
 
 
-    def read(self, id=None):
+    def sobject_read(self, id=None):
         """Read SObject.
 
         Args:
@@ -112,7 +112,7 @@ class SObject:
         return None
 
 
-    def update(self, id, payload):
+    def sobject_update(self, id, payload):
         """Update SObject.
 
         Args:
@@ -140,7 +140,7 @@ class SObject:
         return None
 
 
-    def delete(self, id):
+    def sobject_delete(self, id):
         """Delete SObject.
 
         Args:
