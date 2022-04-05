@@ -28,9 +28,8 @@ class Access:
                  client_secret=None,
                  version=SFDC_API_V,
                  domain='login',
-                 wsdl=None,
-                 metadata=False):
-        """Constructor
+                 wsdl=None):
+        """Instantiator.
 
         Args:
             username (str): The Salesforce user Username
@@ -41,7 +40,6 @@ class Access:
             version (str): The Salesforce version of the Application Programming Interface
             domain (str): The common Salesforce domain for connection (login or test)
             wsdl (str): The path to the WSDL (Web Services Description Language) file
-            metadata (bool): Whether or not this is for metadata
         """
 
         self.username = username
@@ -53,7 +51,6 @@ class Access:
         self.soap_url = f'https://{domain}.salesforce.com/services/Soap/u/{version}'
         self.rest_url = f'https://{domain}.salesforce.com/services/oauth2/token'
         self.wsdl = wsdl
-        self.metadata = metadata
 
 
     def login(self):
@@ -87,8 +84,7 @@ class Access:
                                    password=self.password,
                                    security_token=self.security_token,
                                    url=self.soap_url,
-                                   wsdl=self.wsdl,
-                                   metadata=self.metadata)
+                                   wsdl=self.wsdl)
         
         # There is an error
         return None
@@ -148,8 +144,7 @@ class Access:
                    password,
                    security_token,
                    url=None,
-                   wsdl=None,
-                   metadata=False):
+                   wsdl=None):
         """Login via SOAP (Simple Object Access Protocol)
 
         Args:
@@ -158,7 +153,6 @@ class Access:
             security_token (str): The Salesforce user Security Token
             url (str): The Salesforce SOAP API URL used for login
             wsdl (str): The path to the WSDL (Web Services Description Language) file
-            metadata (bool): Whether or not to get the metadata server URL
 
         Returns:
             A tuple containing the session ID and (metadata) server URL
@@ -180,18 +174,11 @@ class Access:
             # Get the sessionId
             session_id = r['sessionId']
 
-            if metadata:
-                # Get the `metadataServerUrl` if requested
-                metadata_server_url = r['metadataServerUrl']
+            # Get the `serverUrl`
+            server_url = r['serverUrl']
 
-                # Return a tuple of the session ID and metadata server URL
-                return (session_id, metadata_server_url)
-            else:
-                # Get the `serverUrl`
-                server_url = r['serverUrl']
-
-                # Return a tuple of the session ID and server URL
-                return (session_id, server_url)
+            # Return a tuple of the session ID and server URL
+            return (session_id, server_url, wsdl)
 
         # Return None for now if error
         return None
