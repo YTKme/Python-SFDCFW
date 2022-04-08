@@ -7,8 +7,9 @@ import json
 import os
 import unittest
 
-from SFDCFW.Access import Access
+from SFDCFW.Rest import Rest
 from SFDCFW.Metadata import Metadata
+from SFDCFW.SFDCFW import SFDCFW
 from SFDCFW.Constant import TEST_DATA
 
 
@@ -20,6 +21,7 @@ def setUpModule():
 def tearDownModule():
     """Tear Down Module"""
     pass
+
 
 class TestMetadata(unittest.TestCase):
     """Test Metadata."""
@@ -34,31 +36,90 @@ class TestMetadata(unittest.TestCase):
         # Get the current directory of the file
         current_directory = os.path.dirname(os.path.abspath(__file__))
         # Get the path of the Test Data file
-        cls.test_data_file = os.path.join(current_directory, TEST_DATA)
+        test_data_file = os.path.join(current_directory, TEST_DATA)
 
         # Open the file for reading
-        with open(cls.test_data_file, 'r') as f:
-            cls.data = json.load(f)
+        with open(test_data_file, 'r') as f:
+            data = json.load(f)
 
-        # Get the hostname from the Test Data
-        cls.domain = cls.data['domain']
+        # Get the domain
+        domain = data['domain']
 
         # Get the WSDL (Web Service Definition Language) file path
-        cls.enterprise_wsdl = os.path.join(current_directory, cls.data['enterprise_wsdl'])
-        cls.metadata_wsdl = os.path.join(current_directory, cls.data["metadata_wsdl"])
+        enterprise_wsdl = os.path.join(current_directory, data['enterprise_wsdl'])
+        metadata_wsdl = os.path.join(current_directory, data["metadata_wsdl"])
 
-        # Get the SOAP Access user data for success login
-        soap_access_user_success = cls.data['user']['soap_access_user_success']
+        # Create the WSDL information
+        # {
+        #     'enterprise': None,
+        #     'partner': None,
+        #     'apex': None,
+        #     'metadata': None,
+        #     'tooling': None,
+        #     'tooling_typed': None,
+        #     'delegated_authentication': None
+        # }
+        wsdl = {
+            'enterprise': enterprise_wsdl,
+            'metadata': metadata_wsdl
+        }
 
-        # Create an instance of Access object and login
-        cls.access = Access(username=soap_access_user_success['username'],
-                            password=soap_access_user_success['password'],
-                            security_token=soap_access_user_success['security_token'],
-                            domain=cls.domain,
-                            wsdl=cls.enterprise_wsdl,
-                            metadata=True).login()
+        # Get the REST Access user data for success login
+        rest_access_user_success = data['user']['access_user_success']
+
+        # Create an instance of SFDCFW
+        sfdcfw = SFDCFW(username=rest_access_user_success['username'],
+                        password=rest_access_user_success['password'],
+                        security_token=rest_access_user_success['security_token'],
+                        domain=domain,
+                        wsdl=wsdl)
+
+        # Get the `metadata` property
+        cls.sfdcfw_metadata = sfdcfw.metadata
 
 
-    def test_metadata_general(self):
-        metadata = Metadata(access=self.access,
-                            wsdl=self.metadata_wsdl)
+    def test_list_metadata_success(self):
+        """Test a success of list metadata.
+
+        Create a `query` and execute it with `listMetadata`. Should
+        result in response with a `list`.
+        """
+
+        # Create a `query` with `WorkflowRule` type
+        query = [
+            { "type": "WorkflowRule" }
+        ]
+
+        # Execute `listMetadata` with the `query`
+        result = self.sfdcfw_metadata.list_metadata(query=query)
+
+        # Test to ensure `result` is of type `list`
+        self.assertIsInstance(result, list)
+
+
+    @classmethod
+    def tearDownClass(cls):
+        """Prepare test teardown class.
+        """
+        pass
+
+
+def suite():
+    """Test Suite."""
+
+    # Create the Unit Test Suite
+    suite = unittest.TestSuite()
+
+    # Load a suite of all test cases contained in `testCaseClass`
+    test_metadata = unittest.defaultTestLoader.loadTestsFromTestCase(TestMetadata)
+
+    # Add the test suite
+    suite.addTest(test_metadata)
+
+    # Return the Test Suite
+    return suite
+
+
+if __name__ == '__main__':
+    runner = unittest.TextTestRunner()
+    runner.run(suite())
