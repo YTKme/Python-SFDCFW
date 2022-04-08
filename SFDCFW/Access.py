@@ -32,14 +32,14 @@ class Access:
         """Instantiator.
 
         Args:
-            username (str): The Salesforce user Username
-            password (str): The Salesforce user Password
-            security_token (str): The Salesforce user Security Token
-            client_id (str): The Salesforce Connected App Consumer Key
+            username (str): The Salesforce user Username.
+            password (str): The Salesforce user Password.
+            security_token (str): The Salesforce user Security Token.
+            client_id (str): The Salesforce Connected App Consumer Key.
             client_secret (str): The Salesforce Connected App Consumer Secret
-            version (str): The Salesforce version of the Application Programming Interface
-            domain (str): The common Salesforce domain for connection (login or test)
-            wsdl (str): The path to the WSDL (Web Services Description Language) file
+            version (str): The Salesforce version of the Application Programming Interface.
+            domain (str): The common Salesforce domain for connection (login or test).
+            wsdl (str): The path to the Enterprise WSDL (Web Services Description Language) file.
         """
 
         self.username = username
@@ -54,11 +54,11 @@ class Access:
 
 
     def login(self):
-        """Login
+        """Login.
 
         Returns:
             A tuple containing the session ID / access token and
-            (metadata) server URL / instance URL based on credential
+            (metadata) server URL / instance URL.
         """
 
         # Check if username, password, security token, client ID, client secret is provided
@@ -97,19 +97,19 @@ class Access:
                    client_id=None,
                    client_secret=None,
                    url=None):
-        """Login via REST (REpresentational State Transfer)
+        """Login via REST (REpresentational State Transfer).
 
         Args:
-            username (str): The Salesforce user username
-            password (str): The Salesforce user password
-            security_token (str): The Salesforce user Security Token
-            client_id (str): The Salesforce Connected App Consumer Key
-            client_secret (str): The Salesforce Connected App Consumer Secret
-            url (str): The Salesforce REST API URL used for login
+            username (str): The Salesforce user username.
+            password (str): The Salesforce user password.
+            security_token (str): The Salesforce user Security Token.
+            client_id (str): The Salesforce Connected App Consumer Key.
+            client_secret (str): The Salesforce Connected App Consumer Secret.
+            url (str): The Salesforce REST API URL used for login.
 
         Returns:
-            A string for the Salesforce bearer token if call was
-            successful, or None otherwise
+            A tuple containing the access token and instance URL, or
+            None otherwise.
         """
 
         # Create header
@@ -145,17 +145,18 @@ class Access:
                    security_token,
                    url=None,
                    wsdl=None):
-        """Login via SOAP (Simple Object Access Protocol)
+        """Login via SOAP (Simple Object Access Protocol).
 
         Args:
-            username (str): The Salesforce user username
-            password (str): The Salesforce user password
-            security_token (str): The Salesforce user Security Token
-            url (str): The Salesforce SOAP API URL used for login
-            wsdl (str): The path to the WSDL (Web Services Description Language) file
+            username (str): The Salesforce user username.
+            password (str): The Salesforce user password.
+            security_token (str): The Salesforce user Security Token.
+            url (str): The Salesforce SOAP API URL used for login.
+            wsdl (str): The path to the Enterprise WSDL (Web Services Description Language) file.
 
         Returns:
-            A tuple containing the session ID and (metadata) server URL
+            A tuple containing the session ID and (metadata) server URL,
+            or None otherwise.
         """
 
         # Create client with setting of disable strict mode, use recovery mode
@@ -173,11 +174,11 @@ class Access:
         if r is not None:
             # Get the sessionId
             session_id = r['sessionId']
-            # Get the `serverUrl`
-            server_url = r['serverUrl']
+            # Get the `metadataServerUrl`
+            metadata_server_url = r['metadataServerUrl']
 
-            # Return a tuple of the session ID and server URL
-            return (session_id, server_url, wsdl)
+            # Return a tuple of the session ID and metadata server URL
+            return (session_id, metadata_server_url)
 
         # Return None for now if error
         return None
