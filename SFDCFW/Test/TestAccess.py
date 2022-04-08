@@ -163,14 +163,18 @@ class TestSoapAccess(unittest.TestCase):
 
 
 def suite():
-    """Test Suite"""
+    """Test Suite."""
 
     # Create the Unit Test Suite
     suite = unittest.TestSuite()
 
+    # Load a suite of all test cases contained in `testCaseClass`
+    test_rest_access = unittest.defaultTestLoader.loadTestsFromTestCase(TestRestAccess)
+    test_soap_access = unittest.defaultTestLoader.loadTestsFromTestCase(TestSoapAccess)
+
     # Add the Unit Test
-    suite.addTest(TestRestAccess)
-    suite.addTest(TestSoapAccess)
+    suite.addTest(test_rest_access)
+    suite.addTest(test_soap_access)
 
     # Return the Test Suite
     return suite
