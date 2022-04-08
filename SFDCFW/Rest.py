@@ -22,22 +22,22 @@ class Rest:
 
         Args:
             access (tuple): The Salesforce session ID / access token and
-                server URL / instance URL tuple
+                server URL / instance URL tuple.
         """
 
         # Initialize the name / label
         self.label = None
 
         # Unpack the tuple for session ID / access token and server URL / instance URL
-        self.id_token, self.base_url = access
+        self.access_token, self.instance_url = access
         
         # Parse the URL
-        u = urlparse(self.base_url)
-        self.base_url = f'{u.scheme}://{u.netloc}'
+        u = urlparse(self.instance_url)
+        self.instance_url = f'{u.scheme}://{u.netloc}'
 
         # Create REST header
         self.header = {
-            'Authorization': f'Bearer {self.id_token}',
+            'Authorization': f'Bearer {self.access_token}',
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json'
         }
@@ -70,7 +70,7 @@ class Rest:
         """
         
         # Create the request URL
-        request_url = f'{self.base_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}'
+        request_url = f'{self.instance_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}'
 
         # Send the request
         r = requests.post(url=request_url,
@@ -100,10 +100,10 @@ class Rest:
 
         if id is not None:
             # Create the request URL with ID
-            request_url = f'{self.base_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
+            request_url = f'{self.instance_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
         else:
             # Create the request URL without ID
-            request_url = f'{self.base_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}'
+            request_url = f'{self.instance_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}'
 
         # Send the request
         r = requests.get(url=request_url,
@@ -130,7 +130,7 @@ class Rest:
         """
 
         # Create the request URL
-        request_url = f'{self.base_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
+        request_url = f'{self.instance_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
 
         # Send the request
         r = requests.patch(url=request_url,
@@ -157,7 +157,7 @@ class Rest:
         """
 
         # Create the request URL
-        request_url = f'{self.base_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
+        request_url = f'{self.instance_url}/services/data/v{SFDC_API_V}/sobjects/{self.label}/{id}'
 
         # Send the request
         r = requests.delete(url=request_url,
